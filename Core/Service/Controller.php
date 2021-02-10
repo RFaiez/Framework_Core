@@ -1,54 +1,72 @@
 <?php
 
-namespace Service;
+namespace rfaiez\framework_core\Service;
 
 use Smarty;
 
-class Controller{
-
-    const POST_METHOD="POST";
-    const GET_METHOD="GET";
-    private const TEMPLATE_ENGINE="tpl";
+class Controller
+{
+    public const POST_METHOD = 'POST';
+    public const GET_METHOD = 'GET';
+    private const TEMPLATE_ENGINE = 'tpl';
 
     /**
-     * Render view with parameters
+     * Render view with parameters.
      *
      * @param string $view
      * @param array $vars
      *
-     * @return string
+     * @return void
      */
-    public function render(string $view, array $vars=[]):void{
-        $smarty=new Smarty();
+    public function render(string $view, array $vars = []): void
+    {
+        $smarty = new Smarty();
         foreach ($vars as $key => $value) {
             $smarty->assign($key, $value);
         }
         $smarty->display($this->getDocumentRoot().'/../template/'.$view.'.'.self::TEMPLATE_ENGINE);
     }
 
-    public function isMethod($method):bool
+    /**
+     * Check HTTP method.
+     *
+     * @param string $method
+     *
+     * @return boolean
+     */
+    public function isMethod(string $method): bool
     {
-        return $_SERVER['REQUEST_METHOD']==$method;
+        return $_SERVER['REQUEST_METHOD'] == $method;
     }
 
-    public function getDocumentRoot():string
+    /**
+     * Get root path.
+     *
+     * @return string
+     */
+    public function getDocumentRoot(): string
     {
         return $_SERVER['DOCUMENT_ROOT'];
     }
 
-    public function handleRequest(Entity $object, array $request):Entity
+    /**
+     * Create Entity object from request.
+     *
+     * @param Entity $object
+     * @param array $request
+     *
+     * @return Entity
+     */
+    public function handleRequest(Entity $object, array $request): Entity
     {
         foreach ($request as $key => $value) {
             $methodName = 'set'.ucfirst($key);
             if (method_exists($object, $methodName)
-                    && is_callable([$object, $methodName]))
-            {
-                call_user_func_array([$object,$methodName], [$value]);
+                    && is_callable([$object, $methodName])) {
+                call_user_func_array([$object, $methodName], [$value]);
             }
         }
+
         return $object;
     }
-
- 
-
 }

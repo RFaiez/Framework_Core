@@ -1,25 +1,41 @@
 <?php
 
-namespace Service;
+namespace rfaiez\framework_core\Service;
 
 use DI\Container;
 
-class Routing{
-
+class Routing
+{
     private $container;
 
-    public function __construct(Container $container) {
+    /**
+     * Constructor.
+     */
+    public function __construct(Container $container)
+    {
         $this->container = $container;
     }
 
-    public function call(string $controller, string $action="__invoke")
+    /**
+     * Set controller name and method to execute.
+     *
+     * @param string $controller
+     * @param string $action
+     *
+     * @return array
+     */
+    public function call(string $controller, string $action = '__invoke'): array
     {
         return [$this->container->get($controller), $action];
     }
 
-    public function redirectBack()
+    /**
+     * Redirect to last visited route.
+     *
+     * @return void
+     */
+    public function redirectBack(): void
     {
-        return header('Location: ' . $_SERVER['HTTP_REFERER']);     
+        header('Location: '.$_SERVER['HTTP_REFERER']);
     }
-
 }

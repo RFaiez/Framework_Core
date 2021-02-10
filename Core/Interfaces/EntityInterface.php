@@ -1,7 +1,7 @@
 <?php
 
-namespace Interfaces;
+namespace rfaiez\framework_core\Interfaces;
 
-interface EntityInterface{
-    
+interface EntityInterface
+{
 }

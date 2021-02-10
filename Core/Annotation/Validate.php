@@ -1,10 +1,11 @@
 <?php
 
-namespace Annotation;
+namespace rfaiez\framework_core\Annotation;
 
 /**
  * @Annotation
  */
-class Validate{
+class Validate
+{
     public $props;
 }
